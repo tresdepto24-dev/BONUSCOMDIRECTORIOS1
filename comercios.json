@@ -1,0 +1,19 @@
+{
+  "zonas": [
+    {
+      "nombreZona": "Centro Comercial Calle Güemes",
+      "comercios": [
+        { "nombre": "Tienda Mar del Plata", "direccion": "Güemes 2500", "descuento": "15% OFF" },
+        { "nombre": "Café de la Costa", "direccion": "Güemes 2700", "descuento": "10% OFF" },
+        { "nombre": "Kiosco El Faro", "direccion": "Güemes 2850", "descuento": "5% OFF (Base)" }
+      ]
+    },
+    {
+      "nombreZona": "Avenida Constitución",
+      "comercios": [
+        { "nombre": "Restó & Bar Constitución", "direccion": "Av. Constitución 4300", "descuento": "20% OFF" },
+        { "nombre": "Cervecería Artesanal Norte", "direccion": "Av. Constitución 4600", "descuento": "15% OFF" }
+      ]
+    }
+  ]
+}
