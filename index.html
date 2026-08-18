@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Páginas Bronceadas - Directorio BonusCom</title>
+    <style>
+        :root {
+            --bg-page: #f4efe6;
+            --container-bg: #fdfbf7;
+            --primary-brown: #5c3a21;
+            --accent-red: #8b0000;
+            --border-color: #c5b59b;
+            --text-main: #2c221e;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif, Georgia, serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .directory-sheet {
+            background-color: var(--container-bg);
+            border: 3px solid var(--primary-brown);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-brown);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            color: var(--primary-brown);
+            font-size: 2.2rem;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+        header p {
+            font-style: italic;
+            color: #6b5b52;
+            font-size: 1.05rem;
+            margin: 0;
+        }
+        .search-box {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .search-box input {
+            width: 80%;
+            padding: 10px 15px;
+            font-family: 'Times New Roman', serif;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            border-radius: 4px;
+            color: var(--text-main);
+        }
+        .category-bar {
+            background-color: var(--primary-brown);
+            color: #fff;
+            padding: 8px 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .listing-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 5px;
+            border-bottom: 1px dotted var(--border-color);
+            font-size: 1rem;
+        }
+        .listing-item:hover {
+            background-color: rgba(92, 58, 33, 0.03);
+        }
+        .listing-discount {
+            font-weight: bold;
+            color: var(--accent-red);
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #7a6e65;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="directory-sheet">
+        <header>
+            <h1>Páginas Bronceadas</h1>
+            <p>El Directorio Comercial de Mar del Plata — Beneficios BonusCom</p>
+        </header>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar comercio, dirección o servicio..." onkeyup="filtrarDirectorio()">
+        </div>
+
+        <div id="contenedor-directorio">
+            <!-- Los comercios se cargarán aquí automáticamente desde el archivo JSON -->
+        </div>
+
+        <footer>
+            &copy; 2026 BonusCom. Guía Interactiva Digital.
+        </footer>
+    </div>
+
+    <script>
+        let listaZonas = [];
+
+        // Cargar los datos del archivo JSON automáticamente al abrir la página
+        fetch('comercios.json')
+            .then(response => response.json())
+            .then(data => {
+                listaZonas = data.zonas;
+                renderizarDirectorio(listaZonas);
+            })
+            .catch(error => console.error("Error al cargar los comercios:", error));
+
+        function renderizarDirectorio(zonas) {
+            const contenedor = document.getElementById('contenedor-directorio');
+            contenedor.innerHTML = "";
+
+            zonas.forEach(zona => {
+                // Crear barra de categoría/zona
+                let divZona = document.createElement('div');
+                divZona.className = 'category-bar';
+                divZona.innerText = zona.nombreZona;
+                contenedor.appendChild(divZona);
+
+                // Crear los items de cada comercio
+                zona.comercios.forEach(comercio => {
+                    let divItem = document.createElement('div');
+                    divItem.className = 'listing-item';
+                    divItem.setAttribute('data-text', `${comercio.nombre} ${comercio.direccion} ${comercio.descuento}`.toLowerCase());
+
+                    divItem.innerHTML = `
+                        <span class="listing-info"><strong>${comercio.nombre}</strong> - ${comercio.direccion}</span>
+                        <span class="listing-discount">${comercio.descuento}</span>
+                    `;
+                    contenedor.appendChild(divItem);
+                });
+            });
+        }
+
+        // Buscador interactivo en tiempo real
+        function filtrarDirectorio() {
+            let filtro = document.getElementById('searchInput').value.toLowerCase();
+            let items = document.getElementsByClassName('listing-item');
+
+            for (let i = 0; i < items.length; i++) {
+                let texto = items[i].getAttribute('data-text');
+                if (texto.includes(filtro)) {
+                    items[i].style.display = "flex";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
