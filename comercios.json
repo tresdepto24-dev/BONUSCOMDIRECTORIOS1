@@ -6,7 +6,7 @@
         { "nombre": "Tienda Mar del Plata", "direccion": "Güemes 2500", "descuento": "15% OFF" },
         { "nombre": "Café de la Costa", "direccion": "Güemes 2700", "descuento": "10% OFF" },
         { "nombre": "Kiosco El Faro", "direccion": "Güemes 2850", "descuento": "5% OFF (Base)" },  
-        {  "nombre": " Pizzeria El Tano ", "direccion": "guemes 2980",   "descuento": "5% OFF" },
+        { "nombre": "Pizzeria El Tano", "direccion": "guemes 2980","descuento":"5% OFF" },
    ]
     },
     {
