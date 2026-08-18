@@ -1,60 +1,40 @@
-{
-  "zonas": [
-    {
-      "nombreZona": "Centro Comercial Calle Güemes",
-      "comercios": [
-        { "nombre": "Tienda Mar del Plata", "direccion": "Güemes 2500", "descuento": "15% OFF" },
-        { "nombre": "Café de la Costa", "direccion": "Güemes 2700", "descuento": "10% OFF" },
-        { "nombre": "Kiosco El Faro", "direccion": "Güemes 2850", "descuento": "5% OFF (Base)" },
-        { "nombre": "Cervecería El Tano", "direccion": "Güemes 2980", "descuento": "5% OFF" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" },
-        { "nombre": "", "direccion": "", "descuento": "" }
-      ]
+<style>
+    /* Estilo para los avisos cuadrados tipo BonusCom */
+    .destacado-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
     }
-  ]
-}
+    .aviso-cuadrado {
+        border: 5px double #5c3a21;
+        padding: 15px;
+        background: #fdfbf7;
+        text-align: center;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    }
+    .aviso-cuadrado img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border: 1px solid #5c3a21;
+    }
+</style>
+<!-- Agrega esto en tu script de renderizado -->
+<script>
+    function renderizarDirectorio(zonas) {
+        // ... (resto de tu código)
+        // Donde dibujas el comercio, agrega este IF:
+        if (comercio.foto) {
+             divItem.innerHTML = `
+                <div class="aviso-cuadrado">
+                    <img src="${comercio.foto}" alt="${comercio.nombre}">
+                    <h4>${comercio.nombre}</h4>
+                    <p>${comercio.descuento}</p>
+                </div>
+            `;
+        } else {
+             // Tu formato de lista normal
+        }
+    }
+</script>
