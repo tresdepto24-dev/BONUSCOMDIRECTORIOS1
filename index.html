@@ -93,6 +93,16 @@
             white-space: nowrap;
             margin-left: 15px;
         }
+        .error-box {
+            background-color: #fde8e8;
+            border: 1px solid #c53030;
+            color: #9b1c1c;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
         footer {
             text-align: center;
             margin-top: 40px;
@@ -116,7 +126,7 @@
         </div>
 
         <div id="contenedor-directorio">
-            <!-- Los comercios se cargarán aquí automáticamente desde el archivo JSON -->
+            <p style="text-align: center; font-style: italic; color: #7a6e65;">Cargando directorio comercial...</p>
         </div>
 
         <footer>
@@ -127,42 +137,57 @@
     <script>
         let listaZonas = [];
 
-        // Cargar los datos del archivo JSON automáticamente al abrir la página
-        fetch('comercios.json')
-            .then(response => response.json())
+        fetch('comercios.json?' + new Date().getTime()) // Evita problemas de caché
+            .then(response => {
+                if (!response.ok) throw new Error("No se pudo cargar el archivo comercios.json");
+                return response.json();
+            })
             .then(data => {
+                if (!data.zonas) throw new Error("El archivo JSON no tiene la estructura correcta ('zonas').");
                 listaZonas = data.zonas;
                 renderizarDirectorio(listaZonas);
             })
-            .catch(error => console.error("Error al cargar los comercios:", error));
+            .catch(error => {
+                console.error(error);
+                document.getElementById('contenedor-directorio').innerHTML = `
+                    <div class="error-box">
+                        <strong>Aviso del Sistema:</strong><br>
+                        Hubo un pequeño detalle de sintaxis en el archivo JSON.<br>
+                        <em>Detalle técnico:</em> ${error.message}
+                    </div>`;
+            });
 
         function renderizarDirectorio(zonas) {
             const contenedor = document.getElementById('contenedor-directorio');
             contenedor.innerHTML = "";
 
+            if (zonas.length === 0) {
+                contenedor.innerHTML = "<p style='text-align:center;'>No hay comercios cargados actualmente.</p>";
+                return;
+            }
+
             zonas.forEach(zona => {
-                // Crear barra de categoría/zona
                 let divZona = document.createElement('div');
                 divZona.className = 'category-bar';
-                divZona.innerText = zona.nombreZona;
+                divZona.innerText = zona.nombreZona || "Zona sin nombre";
                 contenedor.appendChild(divZona);
 
-                // Crear los items de cada comercio
-                zona.comercios.forEach(comercio => {
-                    let divItem = document.createElement('div');
-                    divItem.className = 'listing-item';
-                    divItem.setAttribute('data-text', `${comercio.nombre} ${comercio.direccion} ${comercio.descuento}`.toLowerCase());
+                if (zona.comercios && Array.isArray(zona.comercios)) {
+                    zona.comercios.forEach(comercio => {
+                        let divItem = document.createElement('div');
+                        divItem.className = 'listing-item';
+                        divItem.setAttribute('data-text', `${comercio.nombre || ''} ${comercio.direccion || ''} ${comercio.descuento || ''}`.toLowerCase());
 
-                    divItem.innerHTML = `
-                        <span class="listing-info"><strong>${comercio.nombre}</strong> - ${comercio.direccion}</span>
-                        <span class="listing-discount">${comercio.descuento}</span>
-                    `;
-                    contenedor.appendChild(divItem);
-                });
+                        divItem.innerHTML = `
+                            <span class="listing-info"><strong>${comercio.nombre || 'Sin nombre'}</strong> - ${comercio.direccion || 'Sin dirección'}</span>
+                            <span class="listing-discount">${comercio.descuento || 'Consultar'}</span>
+                        `;
+                        contenedor.appendChild(divItem);
+                    });
+                }
             });
         }
 
-        // Buscador interactivo en tiempo real
         function filtrarDirectorio() {
             let filtro = document.getElementById('searchInput').value.toLowerCase();
             let items = document.getElementsByClassName('listing-item');
